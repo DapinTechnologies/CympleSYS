@@ -2,9 +2,10 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Query\Expression;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBusinessTable extends Migration
+class CreateBusinessdataTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +14,9 @@ class CreateBusinessTable extends Migration
      */
     public function up()
     {
-        Schema::create('business', function (Blueprint $table) {
+        Schema::create('businessdata', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->integer('phone')->unique();
-            $table->string('device_name');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->string('business_name')->nullable();
             $table->string('business_mode')->nullable();
             $table->string('business_type')->nullable();
@@ -29,11 +27,7 @@ class CreateBusinessTable extends Migration
             $table->string('place_name')->nullable();
             $table->string('city_name')->nullable();
             $table->string('county')->nullable();
-            $table->decimal('gps_data', $precision = 8, $scale = 2)->nullable();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
-            $table->text('profile_photo_path')->nullable();
+            $table->json('gps_data')->default(new Expression('(JSON_ARRAY())'))->nullable;
             $table->timestamps();
         });
     }
@@ -45,6 +39,6 @@ class CreateBusinessTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('business');
+        Schema::dropIfExists('businessdata');
     }
 }

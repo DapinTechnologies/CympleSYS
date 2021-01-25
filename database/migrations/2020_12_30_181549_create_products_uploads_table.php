@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Query\Expression;
 use Illuminate\Support\Facades\Schema;
 
 class CreateProductsUploadsTable extends Migration
@@ -15,6 +16,7 @@ class CreateProductsUploadsTable extends Migration
     {
         Schema::create('products_uploads', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
             $table->string('type');
             $table->string('name');
             $table->text('description');
@@ -25,6 +27,8 @@ class CreateProductsUploadsTable extends Migration
             $table->string('charge_type');
             $table->string('images');
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

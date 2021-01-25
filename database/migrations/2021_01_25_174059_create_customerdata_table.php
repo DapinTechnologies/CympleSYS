@@ -2,9 +2,10 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Query\Expression;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTrackTable extends Migration
+class CreateCustomerdataTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +14,16 @@ class CreateTrackTable extends Migration
      */
     public function up()
     {
-        Schema::create('track', function (Blueprint $table) {
+        Schema::create('customerdata', function (Blueprint $table) {
             $table->id();
-            $table->integer('track_id');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->json('favourite_shops')->default(new Expression('(JSON_ARRAY())'))->nullable;
             $table->string('name');
             $table->text('description');
             $table->text('user_meta_data');
+            $table->float('LAT', 8, 2);
+            $table->float('LONG', 8, 2);
+            $table->float('ALT', 8, 2);
             $table->timestamps();
         });
     }
@@ -30,6 +35,6 @@ class CreateTrackTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('track');
+        Schema::dropIfExists('customerdata');
     }
 }
