@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Query\Expression;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBusinessdataTable extends Migration
+class CreateBusinessDataTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,12 +14,11 @@ class CreateBusinessdataTable extends Migration
      */
     public function up()
     {
-        Schema::create('businessdata', function (Blueprint $table) {
+        Schema::create('business_data', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->string('business_name')->nullable();
             $table->string('business_mode')->nullable();
-            $table->string('business_type')->nullable();
             $table->string('products_type')->nullable();
             $table->string('business_reg_no')->nullable();
             $table->string('category')->nullable();
@@ -39,6 +38,6 @@ class CreateBusinessdataTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('businessdata');
+        Schema::dropIfExists('business_data');
     }
 }

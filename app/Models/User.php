@@ -61,7 +61,10 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
-    public function ProductsUpload(){
-        
+    public function business(){
+        return $this->hasOne(BusinessData::class);
+    }
+    public function customer(){
+        return $this->hasOne(CustomerData::class);
     }
 }
