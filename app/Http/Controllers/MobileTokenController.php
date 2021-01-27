@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\User;
+use App\Models\BusinessData;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
@@ -118,7 +119,10 @@ class MobileTokenController extends Controller
                 'message' => $validator->errors()
             ]);
         }
+        //define the models to save the data.
         $user=new User();
+        $biz=new BusinessData();
+
         $user->name=$req->name;
         $user->email=$req->email;
         $user->phone=$req->phone;
@@ -126,20 +130,24 @@ class MobileTokenController extends Controller
         $user->account_type=$req->account_type;
         $user->auth_type=$req->auth_type;
         $user->push_token=$req->push_token;
-        $user->business_name=$req->business_name;
-        $user->business_mode=$req->business_mode;
-        $user->business_type=$req->business_type;
-        $user->products_type=$req->products_type;
-        $user->business_reg_no=$req->business_reg_no;
-        $user->category=$req->category;
-        $user->building_name=$req->building_name;
-        $user->place_name=$req->place_name;
-        $user->city_name=$req->city_name;
-        $user->county=$req->county;
-        $user->gps_data=$req->gps_data;
-        $user->store_front_link=$req->store_front_link;
         $user->password=bcrypt($req->password);
         $user->save();
+
+        $biz->user_id=BusinessData::find(User::class);
+        $biz->business_name=$req->business_name;
+        $biz->business_mode=$req->business_mode;
+        $biz->business_type=$req->business_type;
+        $biz->products_type=$req->products_type;
+        $biz->business_reg_no=$req->business_reg_no;
+        $biz->category=$req->category;
+        $biz->building_name=$req->building_name;
+        $biz->place_name=$req->place_name;
+        $biz->city_name=$req->city_name;
+        $biz->county=$req->county;
+        $biz->gps_data=$req->gps_data;
+        $biz->store_front_link=$req->store_front_link;
+        $biz->save();
+
 
         $meso='Business Account created successfully';
         return $this->tokenVerif($req,$meso);
